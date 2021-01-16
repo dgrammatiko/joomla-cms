@@ -43,10 +43,16 @@ $listAttr = !empty($listCheck)      ? ' list-selection' : '';
 $formAttr = !empty($form)           ? ' form="' . $this->escape($form) . '"' : '';
 $validate = !empty($formValidation) ? ' form-validation' : '';
 $msgAttr  = !empty($message)        ? ' confirm-message="' . $this->escape($message) . '"' : '';
+$parentClass = '';
 
 if ($id === 'toolbar-help')
 {
 	$title = ' title="' . Text::_('JGLOBAL_OPENS_IN_A_NEW_WINDOW') . '"';
+}
+
+if ($id === 'toolbar-help' || $id === 'toolbar-options')
+{
+	$parentClass = 'class="ml-auto" ';
 }
 
 if (!empty($task))
@@ -59,7 +65,7 @@ elseif (!empty($onclick))
 }
 
 ?>
-<joomla-toolbar-button <?php echo $idAttr.$taskAttr.$listAttr.$formAttr.$validate.$msgAttr; ?>>
+<joomla-toolbar-button <?php echo $parentClass.$idAttr.$taskAttr.$listAttr.$formAttr.$validate.$msgAttr; ?>>
 <<?php echo $tagName; ?>
 	class="<?php echo $btnClass ?? ''; ?>"
 	<?php echo $htmlAttributes ?? ''; ?>
