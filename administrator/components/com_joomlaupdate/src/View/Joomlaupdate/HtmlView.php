@@ -130,6 +130,16 @@ class HtmlView extends BaseHtmlView
 		$this->phpSettings       = $model->getPhpSettings();
 		$this->nonCoreExtensions = $model->getNonCoreExtensions();
 
+		// Set default values
+		foreach ($this->nonCoreExtensions as $key => $value)
+		{
+			$value->currentCompatibilityStatus = false;
+			$value->resultGroup = false;
+			$value->upgradeCompatibilityStatus = false;
+			$value->upgradeWarning = false;
+			$value->firstRun = true;
+		}
+
 		// Set the toolbar information.
 		ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_OVERVIEW'), 'joomla install');
 		ToolbarHelper::custom('update.purge', 'loop', '', 'COM_JOOMLAUPDATE_TOOLBAR_CHECK', false);

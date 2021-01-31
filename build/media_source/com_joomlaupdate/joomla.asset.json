@@ -6,30 +6,6 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_joomlaupdate.admin-update",
-      "type": "script",
-      "uri": "com_joomlaupdate/admin-update-default.min.js",
-      "dependencies": [
-        "core",
-        "jquery"
-      ],
-      "attributes": {
-        "defer": true
-      }
-    },
-    {
-      "name": "com_joomlaupdate.default",
-      "type": "script",
-      "uri": "com_joomlaupdate/default.min.js",
-      "dependencies": [
-        "core",
-        "jquery"
-      ],
-      "attributes": {
-        "defer": true
-      }
-    },
-    {
       "name": "com_joomlaupdate.encryption",
       "type": "script",
       "uri": "com_joomlaupdate/encryption.min.js",
@@ -41,16 +17,25 @@
       }
     },
     {
-      "name": "com_joomlaupdate.update",
+      "name": "com_joomlaupdate.admin-update",
       "type": "script",
-      "uri": "com_joomlaupdate/update.min.js",
+      "uri": "com_joomlaupdate/admin-update-default.es6.min.js",
       "dependencies": [
-        "core",
-        "jquery",
         "com_joomlaupdate.encryption"
       ],
       "attributes": {
         "defer": true
+      }
+    },
+    {
+      "name": "com_joomlaupdate.update",
+      "type": "script",
+      "uri": "com_joomlaupdate/x.es6.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
       }
     }
   ]

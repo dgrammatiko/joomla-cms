@@ -20,7 +20,8 @@ use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 /** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('core')
-	->useScript('com_joomlaupdate.default');
+	->useScript('com_joomlaupdate.admin-update')
+	->useScript('com_joomlaupdate.update');
 
 Text::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
 Text::script('JYES');

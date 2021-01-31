@@ -563,9 +563,9 @@ class UpdateController extends BaseController
 
 		// Do we need to capture
 		$combinedCompatibilityStatus = array(
-			'upgradeCompatibilityStatus' => $upgradeCompatibilityStatus,
-			'currentCompatibilityStatus' => $currentCompatibilityStatus,
-			'resultGroup' => $resultGroup,
+			'upgradeCompatibilityStatus' => $upgradeCompatibilityStatus->state,
+			'currentCompatibilityStatus' => $currentCompatibilityStatus->state,
+			'updateStatus' => $resultGroup,
 			'upgradeWarning' => $upgradeWarning,
 		);
 
