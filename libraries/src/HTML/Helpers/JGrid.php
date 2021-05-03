@@ -270,7 +270,7 @@ abstract class JGrid
 	 * @see     JHtmlJGrid::state()
 	 * @since   1.6
 	 */
-	public static function isdefault($value, $i, $prefix = '', $enabled = true, $checkbox = 'cb', $formId = null, $active_class = 'icon-color-featured icon-star', $inactive_class = 'icon-color-unfeatured icon-star')
+	public static function isdefault($value, $i, $prefix = '', $enabled = true, $checkbox = 'cb', $formId = null, $active_class = 'icon-color-featured icon-star', $inactive_class = 'icon-circle')
 	{
 		if (is_array($prefix))
 		{
@@ -296,7 +296,7 @@ abstract class JGrid
 	 *                          and keys can be taken from 'published', 'unpublished', 'archived', 'trash', 'all'.
 	 *                          These pairs determine which values are displayed.
 	 *
-	 * @return  string  The HTML markup
+	 * @return  array  The array of standard published state filter options
 	 *
 	 * @since   1.6
 	 */

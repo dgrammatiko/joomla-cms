@@ -66,7 +66,7 @@ $wa->registerStyle('template.active', '', [], [], ['template.cassiopeia.' . ($th
 // Logo file or site title param
 if ($this->params->get('logoFile'))
 {
-	$logo = '<img src="' . Uri::root() . htmlspecialchars($this->params->get('logoFile'), ENT_QUOTES) . '" alt="' . $sitename . '">';
+	$logo = '<img src="' . Uri::root(true) . '/' . htmlspecialchars($this->params->get('logoFile'), ENT_QUOTES) . '" alt="' . $sitename . '">';
 }
 elseif ($this->params->get('siteTitle'))
 {
@@ -74,17 +74,17 @@ elseif ($this->params->get('siteTitle'))
 }
 else
 {
-	$logo = '<img src="' . $templatePath . '/images/logo.svg" class="logo d-inline-block" alt="' . $sitename . '">';
+	$logo = HTMLHelper::_('image', 'logo.svg', $sitename, ['class' => 'logo d-inline-block'], true, 0);
 }
 
 $hasClass = '';
 
-if ($this->countModules('sidebar-left'))
+if ($this->countModules('sidebar-left', true))
 {
 	$hasClass .= ' has-sidebar-left';
 }
 
-if ($this->countModules('sidebar-right'))
+if ($this->countModules('sidebar-right', true))
 {
 	$hasClass .= ' has-sidebar-right';
 }
@@ -95,6 +95,9 @@ $wrapper = $this->params->get('fluidContainer') ? 'wrapper-fluid' : 'wrapper-sta
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
 $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top' : '';
+
+// Defer font awesome
+$wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -110,11 +113,18 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 	. ($layout ? ' layout-' . $layout : ' no-layout')
 	. ($task ? ' task-' . $task : ' no-task')
 	. ($itemid ? ' itemid-' . $itemid : '')
-	. ' ' . $pageclass
-	. $hasClass;
-	echo ($this->direction == 'rtl' ? ' rtl' : '');
+	. ($pageclass ? ' ' . $pageclass : '')
+	. $hasClass
+	. ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
-	<header class="header container-header full-width <?php echo $stickyHeader; ?>">
+	<header class="header container-header full-width<?php echo $stickyHeader ? ' ' . $stickyHeader : ''; ?>">
+
+		<?php if ($this->countModules('topbar')) : ?>
+			<div class="container-topbar">
+			<jdoc:include type="modules" name="topbar" style="none" />
+			</div>
+		<?php endif; ?>
+
 		<div class="grid-child">
 			<div class="navbar-brand">
 				<a class="brand-logo" href="<?php echo $this->baseurl; ?>/">
@@ -125,9 +135,9 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 				<?php endif; ?>
 			</div>
 		</div>
-		<?php if ($this->countModules('menu') || $this->countModules('search')) : ?>
+		<?php if ($this->countModules('menu', true) || $this->countModules('search', true)) : ?>
 			<div class="grid-child container-nav">
-				<?php if ($this->countModules('menu')) : ?>
+				<?php if ($this->countModules('menu', true)) : ?>
 					<nav class="navbar navbar-expand-md">
 						<?php HTMLHelper::_('bootstrap.collapse', '.navbar-toggler'); ?>
 						<button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
@@ -138,7 +148,7 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 						</div>
 					</nav>
 				<?php endif; ?>
-				<?php if ($this->countModules('search')) : ?>
+				<?php if ($this->countModules('search', true)) : ?>
 					<div class="container-search">
 						<jdoc:include type="modules" name="search" style="none" />
 					</div>
@@ -147,25 +157,25 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 		<?php endif; ?>
 	</header>
 
-	<?php if ($this->countModules('banner')) : ?>
+	<?php if ($this->countModules('banner', true)) : ?>
 		<div class="container-banner full-width">
 			<jdoc:include type="modules" name="banner" style="none" />
 		</div>
 	<?php endif; ?>
 
-	<?php if ($this->countModules('top-a')) : ?>
+	<?php if ($this->countModules('top-a', true)) : ?>
 	<div class="grid-child container-top-a">
 		<jdoc:include type="modules" name="top-a" style="card" />
 	</div>
 	<?php endif; ?>
 
-	<?php if ($this->countModules('top-b')) : ?>
+	<?php if ($this->countModules('top-b', true)) : ?>
 	<div class="grid-child container-top-b">
 		<jdoc:include type="modules" name="top-b" style="card" />
 	</div>
 	<?php endif; ?>
 
-	<?php if ($this->countModules('sidebar-left')) : ?>
+	<?php if ($this->countModules('sidebar-left', true)) : ?>
 	<div class="grid-child container-sidebar-left">
 		<jdoc:include type="modules" name="sidebar-left" style="card" />
 	</div>
@@ -181,25 +191,25 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 		<jdoc:include type="modules" name="main-bottom" style="card" />
 	</div>
 
-	<?php if ($this->countModules('sidebar-right')) : ?>
+	<?php if ($this->countModules('sidebar-right', true)) : ?>
 	<div class="grid-child container-sidebar-right">
 		<jdoc:include type="modules" name="sidebar-right" style="card" />
 	</div>
 	<?php endif; ?>
 
-	<?php if ($this->countModules('bottom-a')) : ?>
+	<?php if ($this->countModules('bottom-a', true)) : ?>
 	<div class="grid-child container-bottom-a">
 		<jdoc:include type="modules" name="bottom-a" style="card" />
 	</div>
 	<?php endif; ?>
 
-	<?php if ($this->countModules('bottom-b')) : ?>
+	<?php if ($this->countModules('bottom-b', true)) : ?>
 	<div class="grid-child container-bottom-b">
 		<jdoc:include type="modules" name="bottom-b" style="card" />
 	</div>
 	<?php endif; ?>
 
-	<?php if ($this->countModules('footer')) : ?>
+	<?php if ($this->countModules('footer', true)) : ?>
 	<footer class="container-footer footer full-width">
 		<div class="grid-child">
 			<jdoc:include type="modules" name="footer" style="none" />
@@ -216,6 +226,5 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 	<?php endif; ?>
 
 	<jdoc:include type="modules" name="debug" style="none" />
-
 </body>
 </html>

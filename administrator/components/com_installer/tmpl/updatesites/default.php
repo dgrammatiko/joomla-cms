@@ -16,7 +16,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.multiselect');
-HTMLHelper::_('bootstrap.popover', 'span.hasPopover');
+HTMLHelper::_('bootstrap.popover', 'span.hasPopover', ['trigger' => 'hover focus']);
 
 $user      = Factory::getApplication()->getIdentity();
 $userId    = $user->get('id');
@@ -105,6 +105,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<br>
 									<span class="small break-word">
 										<a href="<?php echo $item->location; ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->escape($item->location); ?></a>
+										<?php if ($item->extra_query): ?>
+											<br/><pre><?php echo $item->extra_query; ?></pre>
+										<?php endif; ?>
 									</span>
 									<br>
 									<span class="small break-word">

@@ -103,7 +103,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 							<tr class="row<?php echo $i % 2; ?>">
 								<td class="text-center">
 									<?php if ($canEdit || $canChange) : ?>
-										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+										<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->name); ?>
 									<?php endif; ?>
 								</td>
 								<th scope="row">
@@ -118,7 +118,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 									<div class="btn-group">
 										<?php echo HTMLHelper::_('users.addNote', $item->id); ?>
 										<?php if ($item->note_count > 0) : ?>
-										<button type="button" class="btn btn-secondary btn-sm dropdown-toggle dropdown-toggle-split"  data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<button type="button" class="btn btn-secondary btn-sm dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											<span class="visually-hidden"><?php echo Text::_('JGLOBAL_TOGGLE_DROPDOWN'); ?></span>
 										</button>
 										<div class="dropdown-menu">
