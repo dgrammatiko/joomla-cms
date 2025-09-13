@@ -39,7 +39,7 @@ final class Version
      * @var    integer
      * @since  3.8.0
      */
-    public const MAJOR_VERSION = 6;
+    public const MAJOR_VERSION = 5;
 
     /**
      * Minor release version.
@@ -47,7 +47,7 @@ final class Version
      * @var    integer
      * @since  3.8.0
      */
-    public const MINOR_VERSION = 0;
+    public const MINOR_VERSION = 4;
 
     /**
      * Patch release version.
@@ -66,7 +66,7 @@ final class Version
      * @var    string
      * @since  3.8.0
      */
-    public const EXTRA_VERSION = 'beta3-dev';
+    public const EXTRA_VERSION = 'beta3';
 
     /**
      * Development status.
@@ -74,7 +74,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const DEV_STATUS = 'Development';
+    public const DEV_STATUS = 'Beta';
 
     /**
      * Code name.
@@ -82,7 +82,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const CODENAME = 'Kuimarisha';
+    public const CODENAME = 'Kutegemea';
 
     /**
      * Release date.
@@ -90,7 +90,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELDATE = '2-September-2025';
+    public const RELDATE = '16-September-2025';
 
     /**
      * Release time.
@@ -98,8 +98,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-
-    public const RELTIME = '17:01';
+    public const RELTIME = '16:00';
 
     /**
      * Release timezone.
@@ -107,7 +106,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELTZ = 'UTC';
+    public const RELTZ = 'GMT';
 
     /**
      * Copyright Notice.
