@@ -167,8 +167,27 @@ class DND {
       perform: true,
       promise: true,
     })
-    .then((response) => { if (response.status !== 200) throw new Error(`Unexpected response status: ${response.status}`); })
-    .catch((error) => { return false; });
+    .then((xhr) => {
+      // Parse response, and let it throw an error on broken JSON
+      const response = JSON.parse(xhr.responseText);
+
+      // Show the response error if any
+      if (response.error || !response.success) {
+        const message = response.message || 'Unexpected response error';
+
+        Joomla.renderMessages({error: [message]}, null, false);
+      } else if(response.success) {
+        Joomla.renderMessages({message: [response.message]}, null, false);
+      }
+
+      // Show the messages that may popup during saving of the new order
+      if (response.messages) {
+        Joomla.renderMessages(response.messages, null, true);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 
     return true;
   }
