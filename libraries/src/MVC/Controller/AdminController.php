@@ -381,8 +381,8 @@ class AdminController extends BaseController
         if ($this->input->json->count()) {
             $list = (array) $this->input->json->getArray();
 
-            $pks   = $list && array_key_exists('id', $list) ? ArrayHelper::toInteger(array_column($list, 'id')) : [];
-            $order = $list && array_key_exists('order', $list) ? ArrayHelper::toInteger(array_column($list, 'order')) : [];
+            $pks   = $list ? ArrayHelper::toInteger(array_column($list, 'id')) : [];
+            $order = $list ? ArrayHelper::toInteger(array_column($list, 'order')) : [];
         } else {
             // Check for FormData
             $pks   = (array) $this->input->post->get('cid', [], 'int');
