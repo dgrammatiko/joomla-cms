@@ -372,11 +372,22 @@ class AdminController extends BaseController
     public function saveOrderAjax()
     {
         // Check for request forgeries.
-        $this->checkToken();
+        if (!$this->checkToken('post', false)) {
+            throw new \RuntimeException(Text::_('JINVALID_TOKEN'), 403);
+        }
 
         // Get the input
-        $pks   = (array) $this->input->post->get('cid', [], 'int');
-        $order = (array) $this->input->post->get('order', [], 'int');
+        // Check for JSON payload
+        if ($this->input->json->count()) {
+            $list = (array) $this->input->json->getArray();
+
+            $pks   = $list ? ArrayHelper::toInteger(array_column($list, 'id')) : [];
+            $order = $list ? ArrayHelper::toInteger(array_column($list, 'order')) : [];
+        } else {
+            // Check for FormData
+            $pks   = (array) $this->input->post->get('cid', [], 'int');
+            $order = (array) $this->input->post->get('order', [], 'int');
+        }
 
         // Remove zero PKs and corresponding order values resulting from input filter for PK
         foreach ($pks as $i => $pk) {
@@ -391,55 +402,20 @@ class AdminController extends BaseController
         // Save the ordering
         $return = $model->saveorder($pks, $order);
 
-        if ($return) {
-            echo '1';
+        if (!$return) {
+            throw new \RuntimeException(Text::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError()));
         }
 
-        // Close the application
-        $this->app->close();
-    }
-
-    /**
-     * Method to save the submitted ordering values for records via AJAX.
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function reorderAjax(): void
-    {
-        // Check for request forgeries.
-        if (!$this->checkToken()) {
-            throw new \RuntimeException(Text::_('JINVALID_TOKEN'), 403);
-        }
-
-        // Get the input data
-        $list = (array) $this->input->json->getArray();
-
-        if (empty($list) || !\is_array($list) || \count($list) === 0) {
-            throw new \InvalidArgumentException(Text::_('JLIB_APPLICATION_ERROR_NO_ITEMS_SELECTED'), 400);
-        }
-
-        // Remove zero PKs and corresponding order values resulting from input filter for PK
-        foreach ($list as $listItem) {
-            if (isset($listItem['id']) && (int) $listItem['id'] === 0) {
-                unset($listItem);
-                continue;
+        if ($this->input->get('format') === 'json') {
+            echo new JsonResponse(true, Text::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED'));
+        } else {
+            if ($return) {
+                echo '1';
             }
+
+            // Close the application
+            $this->app->close();
         }
-
-        $model = $this->getModel();
-
-        // Save the ordering
-        $return = $model->saveorder(array_column($list, 'id'), array_column($list, 'order'));
-
-        // Return the data
-        if ($return) {
-            echo new JsonResponse(false, Text::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError()));
-            return;
-        }
-
-        echo new JsonResponse(true);
     }
 
     /**

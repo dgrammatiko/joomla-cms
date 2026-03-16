@@ -34,7 +34,7 @@ $saveOrder = $listOrder == 'a.ordering';
 $assoc     = Associations::isEnabled();
 
 if ($saveOrder && !empty($this->items)) {
-    $saveOrderingUrl = 'index.php?option=com_contact&task=contacts.reorderAjax&format=json';
+    $saveOrderingUrl = 'index.php?option=com_contact&task=contacts.saveOrderAjax&format=json';
     $dndAttributes   = [
         'class'                  => 'js-draggable',
         'data-dnd-item-selector' => 'tr',
